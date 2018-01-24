@@ -10,6 +10,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -22,7 +23,7 @@ public abstract class BaseScreen {
     private final AppiumDriver<? extends MobileElement> appiumDriver;
 
     @Autowired
-    private AppiumConfig appiumConfig;
+    private Environment environment;
 
     @Autowired
     public BaseScreen(AppiumDriver<? extends MobileElement> appiumDriver) {
@@ -47,7 +48,7 @@ public abstract class BaseScreen {
     }
 
     protected FluentWait<AppiumDriver> getWait() {
-        return waitOn(getAppiumDriver(), appiumConfig.timeout());
+        return waitOn(getAppiumDriver(), Integer.parseInt(environment.getProperty("appium.new.command.timeout")));
     }
 
     protected void click(MobileElement element) {

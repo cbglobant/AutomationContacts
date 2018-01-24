@@ -1,19 +1,20 @@
 package com.globant.config;
 
-import com.globant.appium.AppiumConfig;
-import com.globant.util.EnumPlataform;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import org.aeonbits.owner.ConfigFactory;
+import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,51 +22,56 @@ import java.net.URL;
 import static com.globant.appium.MobileCapabilityTypeDecorator.*;
 
 @Configuration
+@PropertySource("classpath:appium.properties")
 @ComponentScan("com.globant.*")
 public class ConfigApplication {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Bean
-    public AppiumConfig appiumConfig() {
-        return ConfigFactory.create(AppiumConfig.class);
-    }
+    @Autowired
+    private Environment environment;
 
     @Bean(destroyMethod = "quit")
     @Qualifier("driver")
     public AppiumDriver<? extends MobileElement> appiumDriver() throws MalformedURLException {
-        return this.appiumConfig().platform().equals(EnumPlataform.ANDROID)
+        return environment.getProperty("platform").equals(MobilePlatform.ANDROID)
                 ? new AndroidDriver(url(), this.desiredCapabilities())
                 : new IOSDriver(url(), this.desiredCapabilities());
     }
 
     @Bean
     public URL url() throws MalformedURLException {
-        return new URL("http://0.0.0.0:" + appiumConfig().appiumServerPort() + "/wd/hub");
+        return new URL(new StringBuilder()
+                .append("http://")
+                .append(environment.getProperty("appium.server.ip"))
+                .append(":")
+                .append(environment.getProperty("appium.server.port"))
+                .append("/wd/hub")
+                .toString());
     }
 
     @Bean
     public DesiredCapabilities desiredCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        if (this.appiumConfig().isRunEnviroment()) {
-            capabilities.setCapability(AUTOMATION_NAME, appiumConfig().automationName());
-            capabilities.setCapability(DEVICE_NAME, appiumConfig().deviceName());
-            capabilities.setCapability(UDID, appiumConfig().udid());
-            capabilities.setCapability(NO_RESET, appiumConfig().isAppNoReset());
-            capabilities.setCapability(FULL_RESET, appiumConfig().isAppFullReset());
-            capabilities.setCapability(NEW_COMMAND_TIMEOUT, appiumConfig().newCommandTimeout());
-            capabilities.setCapability(APP, appiumConfig().app());
-            capabilities.setCapability(PLATFORM_VERSION, appiumConfig().platformVersion());
-            capabilities.setCapability(PLATFORM_NAME, appiumConfig().platform().getOS().toString());
+        if (environment.getProperty("run.enviroment").equals("true")) {
+            capabilities.setCapability(AUTOMATION_NAME, environment.getProperty("automationName"));
+            capabilities.setCapability(DEVICE_NAME, environment.getProperty("device.name"));
+            capabilities.setCapability(UDID, environment.getProperty("device.udid"));
+            capabilities.setCapability(NO_RESET, environment.getProperty("app.noReset"));
+            capabilities.setCapability(FULL_RESET, environment.getProperty("app.fullReset"));
+            capabilities.setCapability(NEW_COMMAND_TIMEOUT, environment.getProperty("appium.new.command.timeout"));
+            capabilities.setCapability(APP, environment.getProperty("app"));
+            capabilities.setCapability(PLATFORM_VERSION, environment.getProperty("platform.version"));
+            capabilities.setCapability(PLATFORM_NAME, environment.getProperty("platform"));
 
-            if (EnumPlataform.ANDROID.equals(appiumConfig().platform())) {
-                capabilities.setCapability(APP_PACKAGE, appiumConfig().appPackage());
-                capabilities.setCapability(APP_ACTIVITY, appiumConfig().appActivity());
+            if (MobilePlatform.ANDROID.equals(environment.getProperty("platform"))) {
+                capabilities.setCapability(APP_PACKAGE, environment.getProperty("android.app.package"));
+                capabilities.setCapability(APP_ACTIVITY, environment.getProperty("android.app.activity"));
             } else {
                 capabilities.setCapability(PLATFORM, "mac");
-                capabilities.setCapability(BUNDLE_ID, appiumConfig().bundleid());
-                capabilities.setCapability(XCODE_ORG_ID, appiumConfig().xcodeOrgId());
-                capabilities.setCapability(CLEAR_SYSTEM_FILES, appiumConfig().clearSystemFiles());
+                capabilities.setCapability(BUNDLE_ID, environment.getProperty("ios.app.bundleid"));
+                capabilities.setCapability(XCODE_ORG_ID, environment.getProperty("ios.app.xcodeOrgId"));
+                capabilities.setCapability(CLEAR_SYSTEM_FILES, environment.getProperty("clearSystemFiles"));
             }
         }
         return capabilities;
