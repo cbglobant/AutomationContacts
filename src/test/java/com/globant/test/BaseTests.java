@@ -1,9 +1,7 @@
 package com.globant.test;
 
-
 import com.globant.config.ConfigApplication;
 import com.globant.pageobject.BaseScreen;
-import com.globant.screen.ios.HomeScreenIOS;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.springframework.beans.factory.annotation.Autowired;

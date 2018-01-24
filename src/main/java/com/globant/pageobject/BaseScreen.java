@@ -1,6 +1,5 @@
 package com.globant.pageobject;
 
-import com.globant.appium.AppiumConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;

@@ -1,9 +1,6 @@
-import com.globant.appium.AppiumConfig;
-import com.globant.config.ConfigApplication;
+
 import com.globant.model.User;
 import com.globant.util.MapperJSON;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 

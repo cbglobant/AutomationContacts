@@ -22,7 +22,7 @@ import java.net.URL;
 import static com.globant.appium.MobileCapabilityTypeDecorator.*;
 
 @Configuration
-@PropertySource("classpath:appium.properties")
+@PropertySource("classpath:appiumAndroid.properties")
 @ComponentScan("com.globant.*")
 public class ConfigApplication {
 
