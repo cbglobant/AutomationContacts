@@ -2,6 +2,7 @@ package com.globant.screen.android;
 
 import com.globant.model.User;
 import com.globant.pageobject.BaseScreen;
+import com.globant.util.ScreenFactory;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Component;
 @Component("newContactScreenAndroid")
 @Profile("ANDROID")
 public class NewContactScreenAndroid extends BaseScreen {
+
+    @Autowired
+    private ScreenFactory screenFactory;
 
     @AndroidFindBy(xpath = "//android.widget.EditText[@text='Nombre']")
     private AndroidElement textFieldName;
@@ -31,12 +35,13 @@ public class NewContactScreenAndroid extends BaseScreen {
         super(appiumDriver);
     }
 
-    public void addContact(User user){
+    public <T extends BaseScreen> T addContact(String nameBean, User user){
         type(textFieldName,user.getName());
         hideKeyboard();
         type(textFieldLastName, user.getLastName());
         hideKeyboard();
         type(textFieldNumberPhone, user.getCellNumber());
         click(saveButton);
+        return screenFactory.getScreen(nameBean);
     }
 }
