@@ -4,9 +4,9 @@ import com.globant.model.User;
 import com.globant.screen.ios.ContactScreenIOS;
 import com.globant.screen.ios.HomeScreenIOS;
 import com.globant.screen.ios.NewContactScreenIOS;
+import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -28,6 +28,6 @@ public class AddContactsIOS extends BaseTests {
         newContactScreenIOS = homeScreenIOS.addContact("newContactScreenIOS");
         contactScreenIOS = newContactScreenIOS.addDataContact("contactScreenIOS", user);
 
-        Assert.assertTrue(contactScreenIOS.isCreatedContact(user));
+        Assertions.assertThat(contactScreenIOS.isCreatedContact(user)).isTrue();
     }
 }

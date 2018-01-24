@@ -4,7 +4,6 @@ import com.globant.model.User;
 import com.globant.screen.android.ContactScreenAndroid;
 import com.globant.screen.android.HomeScreenAndroid;
 import com.globant.screen.android.NewContactScreenAndroid;
-import com.globant.screen.ios.ContactScreenIOS;
 import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;

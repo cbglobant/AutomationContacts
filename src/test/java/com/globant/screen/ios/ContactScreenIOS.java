@@ -41,7 +41,7 @@ public class ContactScreenIOS extends BaseScreen {
 
     public Boolean isCreatedContact(User user){
         return textFieldName.getText().equals(user.getFullName())
-                && textFieldNumberPhone.getText().equals(UtilFormat.formatPhoneNumber(user.getPhoneNumber()));
+                && UtilFormat.formatPhoneNumber(textFieldNumberPhone.getText()).equals(UtilFormat.formatPhoneNumber(user.getPhoneNumber()));
     }
 
 }
