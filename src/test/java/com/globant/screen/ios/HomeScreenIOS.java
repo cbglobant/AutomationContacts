@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component("homeScreenIOS")
+@Component
 @Profile("IOS")
 public class HomeScreenIOS extends BaseScreen {
 
