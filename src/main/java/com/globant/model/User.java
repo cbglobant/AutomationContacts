@@ -15,6 +15,7 @@ public class User {
     private String accountSerialNumber;
     private String name;
     private String lastName;
+    private String zoneCode;
     private String cellNumber;
     private String email;
     private String comment;
@@ -27,9 +28,16 @@ public class User {
                 .toString();
     }
 
+    public String getPhoneNumber(){
+        return new StringBuffer()
+                .append(zoneCode)
+                .append(cellNumber)
+                .toString();
+    }
+
     @Override
     public String toString() {
         return "User [accountRUT=" + accountRUT + ", accountSerialNumber=" + accountSerialNumber + ", name=" + name
-                + ", lastName=" + lastName + ", cellNumber=" + cellNumber + ", email=" + email + "]";
+                + ", lastName=" + lastName + "zoneCode=" + zoneCode + ", cellNumber=" + cellNumber + ", email=" + email + "]";
     }
 }

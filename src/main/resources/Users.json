@@ -164,7 +164,8 @@
     "accountSerialNumber": "200599041",
     "name": "Diego",
     "lastName": "Gilardoni",
-    "cellNumber": "983168034",
+    "zoneCode": "9",
+    "cellNumber": "83168034",
     "email": "c@r.com"
   }
 ]
