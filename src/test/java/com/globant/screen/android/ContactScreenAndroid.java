@@ -3,6 +3,7 @@ package com.globant.screen.android;
 import com.globant.model.User;
 import com.globant.pageobject.BaseScreen;
 import com.globant.util.ScreenFactory;
+import com.globant.util.UtilFormat;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
@@ -10,6 +11,8 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import static com.globant.util.UtilFormat.formatPhoneNumber;
 
 @Component
 @Profile("ANDROID")
@@ -30,11 +33,7 @@ public class ContactScreenAndroid extends BaseScreen {
     }
 
     public Boolean isCreatedContact(User user){
-        System.out.println("name field" + textFieldName.getText());
-        System.out.println("name user" + user.getFullName());
-        System.out.println("phone field" + textFieldNumberPhone.getText());
-        System.out.println("phone user" + user.getCellNumber());
-        System.out.println(textFieldName.getText().equals(user.getFullName()) && textFieldNumberPhone.getText().equals(user.getCellNumber()));
-        return textFieldName.getText().equals(user.getFullName());
+        return textFieldName.getText().equals(user.getFullName())
+                && formatPhoneNumber(textFieldNumberPhone.getText()).equals(formatPhoneNumber(user.getPhoneNumber()));
     }
 }

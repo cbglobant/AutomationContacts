@@ -2,6 +2,8 @@ package com.globant.pageobject;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.PressesKeyCode;
+import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -89,5 +91,12 @@ public abstract class BaseScreen {
     protected void typeIOSElement(MobileElement element, String text) {
         element.clear();
         element.sendKeys(text);
+    }
+
+    /**
+     * Tap on the back button.
+     */
+    public void tapOnBackButton() {
+        ((PressesKeyCode) appiumDriver).pressKeyCode(AndroidKeyCode.BACK);
     }
 }
