@@ -2,6 +2,7 @@ package com.globant.screen.ios;
 
 import com.globant.model.User;
 import com.globant.pageobject.BaseScreen;
+import com.globant.util.annottation.ScreenIOS;
 import com.globant.util.ScreenFactory;
 import com.globant.util.UtilFormat;
 import io.appium.java_client.AppiumDriver;
@@ -9,11 +10,8 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
-@Component
-@Profile("IOS")
+@ScreenIOS
 public class ContactScreenIOS extends BaseScreen {
 
     @Autowired
@@ -42,6 +40,16 @@ public class ContactScreenIOS extends BaseScreen {
     public Boolean isCreatedContact(User user){
         return textFieldName.getText().equals(user.getFullName())
                 && UtilFormat.formatPhoneNumber(textFieldNumberPhone.getText()).equals(UtilFormat.formatPhoneNumber(user.getPhoneNumber()));
+    }
+
+    public <T extends BaseScreen> T clickContactButton(String nameBean){
+        click(contactButton);
+        return screenFactory.getScreen(nameBean);
+    }
+
+    public <T extends BaseScreen> T clickEditButton(String nameBean){
+        click(editButton);
+        return screenFactory.getScreen(nameBean);
     }
 
 }

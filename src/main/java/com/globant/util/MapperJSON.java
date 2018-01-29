@@ -9,10 +9,26 @@ import java.util.List;
 
 public class MapperJSON {
 
-    public static <T> List<T> getObjects(Class<T> tClass, String file) throws IOException {
-        return new ObjectMapper().readValue(
-                new ClassPathResource(file).getInputStream(),
-                new ObjectMapper().getTypeFactory().constructCollectionType(List.class, tClass));
+    public static <T> List<T> getObjects(Class<T> tClass, String file) {
+        try {
+            return new ObjectMapper().readValue(
+                    new ClassPathResource(file).getInputStream(),
+                    new ObjectMapper().getTypeFactory().constructCollectionType(List.class, tClass));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <T> List<T> getObjects(EnumData enumData) {
+        try {
+            return new ObjectMapper().readValue(
+                    new ClassPathResource(enumData.getFile()).getInputStream(),
+                    new ObjectMapper().getTypeFactory().constructCollectionType(List.class, enumData.getaClass()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

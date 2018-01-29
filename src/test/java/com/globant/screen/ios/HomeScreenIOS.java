@@ -2,20 +2,19 @@ package com.globant.screen.ios;
 
 import com.globant.model.User;
 import com.globant.pageobject.BaseScreen;
-import com.globant.screen.widget.ContactsWidget;
+import com.globant.util.annottation.ScreenIOS;
 import com.globant.util.ScreenFactory;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Component
-@Profile("IOS")
+@ScreenIOS
 public class HomeScreenIOS extends BaseScreen {
 
     @Autowired
@@ -24,7 +23,11 @@ public class HomeScreenIOS extends BaseScreen {
     @iOSXCUITFindBy(iOSNsPredicate = "name = 'Agregar' && type = 'XCUIElementTypeButton'")
     private IOSElement addButton;
 
-    private List<ContactsWidget> contactsWidgets;
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeTable/XCUIElementTypeCell")
+    private List<IOSElement> contacts;
+
+    @iOSXCUITFindBy(iOSNsPredicate = "type = 'XCUIElementTypeSearchField' && name = 'Buscar'")
+    private IOSElement searchField;
 
     @Autowired
     public HomeScreenIOS(AppiumDriver<? extends MobileElement> appiumDriver) {
@@ -37,8 +40,23 @@ public class HomeScreenIOS extends BaseScreen {
         return screenFactory.getScreen(nameBean);
     }
 
-    public Boolean isCreatedContact(User user){
-        return contactsWidgets.stream().findFirst().filter(contactsWidget -> contactsWidget.getContact().equals(user.getFullName())).isPresent();
+    public Boolean isValidContacts(List<User> users) {
+        return users.stream().map(user -> user.getFullName())
+                .collect(Collectors.toList())
+                .containsAll(contacts.stream()
+                        .map(RemoteWebElement::getText)
+                        .collect(Collectors.toList()));
+
+    }
+
+    public <T extends BaseScreen> T findContact(String nameBean, User user) {
+        typeIOSElement(searchField, user.getFullName());
+        contacts.stream().filter(
+                element ->
+                        element.getText().equals(user.getFullName()))
+                .findFirst()
+                .ifPresent(this::click);
+        return screenFactory.getScreen(nameBean);
     }
 
 }

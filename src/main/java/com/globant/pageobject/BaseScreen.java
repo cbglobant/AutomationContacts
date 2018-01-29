@@ -1,20 +1,25 @@
 package com.globant.pageobject;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class BaseScreen {
@@ -89,5 +94,36 @@ public abstract class BaseScreen {
     protected void typeIOSElement(MobileElement element, String text) {
         element.clear();
         element.sendKeys(text);
+    }
+
+    /**
+     * Checking that an element, known to be present on the screen, is visible.
+     *
+     * @param locator The element locator.
+     * @param timeout
+     * @return True if the element is visible otherwise return false.
+     * @throws <code>TimeoutException</code> - If the timeout expires because the element is not visible.
+     */
+    protected boolean elementExists(By locator, int timeout) {
+        try {
+            waitOn(getAppiumDriver(), timeout).until(visibilityOfElementLocated(locator));
+        } catch (Exception toe) {
+            return false;
+        }
+        return true;
+    }
+
+    public void scrollToElement(String object, WebElement element) {
+        By elementBy = MobileBy.iOSNsPredicateString(format("type = 'XCUIElementTypeStaticText' && name == '%s'", object));
+        if (elementExists(elementBy, 2)) {
+            getAppiumDriver().findElement(elementBy).click();
+        } else {
+            new TouchAction(getAppiumDriver())
+                    .press(element.getLocation().x, (int) (element.getSize().height * 0.90))
+                    .moveTo(0, (int) (element.getSize().height * 0.10) - (int) (element.getSize().height * 0.90))
+                    .release()
+                    .perform();
+            scrollToElement(object, element);
+        }
     }
 }
