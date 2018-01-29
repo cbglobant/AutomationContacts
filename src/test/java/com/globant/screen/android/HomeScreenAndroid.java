@@ -25,6 +25,9 @@ public class HomeScreenAndroid extends BaseScreen {
     @AndroidFindBy(xpath = "//android.widget.ImageView[@content-desc='Más opciones']")
     private AndroidElement moreOptions;
 
+    @AndroidFindBy(id = "com.google.android.contacts:id/empty_account_view_text")
+    private AndroidElement emptyContactList;
+
     private MoreOptionsWidget moreOptionsWidget;
 
     private SelectedWidget selectedWidget;
@@ -61,4 +64,7 @@ public class HomeScreenAndroid extends BaseScreen {
         return screenFactory.getScreen("homeScreenAndroid");
     }
 
+    public Boolean isContactListEmpty(){
+        return emptyContactList.isDisplayed();
+    }
 }
