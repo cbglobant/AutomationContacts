@@ -9,15 +9,15 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 @AndroidFindBy(xpath = "//android.widget.ListView")
-public class MoreOptionsWidgetAndroid extends Widget {
+public class MoreOptionsWidget extends Widget {
 
     @AndroidFindBy(id = "com.google.android.contacts:id/title")
     private List<AndroidElement> option;
 
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text = 'Seleccionar todo']")
-    private MobileElement selectAllOption;
+    @AndroidFindBy(xpath = "//android.widget.LinearLayout[2]/android.widget.RelativeLayout/android.widget.TextView")
+    private AndroidElement selectAllOption;
 
-    protected MoreOptionsWidgetAndroid(WebElement element) {
+    protected MoreOptionsWidget(WebElement element) {
         super(element);
     }
 

@@ -6,12 +6,12 @@ import io.appium.java_client.pagefactory.Widget;
 import org.openqa.selenium.WebElement;
 
 @AndroidFindBy(id = "com.google.android.contacts:id/root")
-public class SelectedWidgetAndroid extends Widget {
+public class SelectedWidget extends Widget {
 
     @AndroidFindBy(id = "com.google.android.contacts:id/menu_delete")
     private MobileElement deleteOption;
 
-    protected SelectedWidgetAndroid(WebElement element) {
+    protected SelectedWidget(WebElement element) {
         super(element);
     }
 

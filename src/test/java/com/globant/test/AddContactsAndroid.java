@@ -22,13 +22,16 @@ public class AddContactsAndroid extends BaseTests {
     private ContactScreenAndroid contactScreenAndroid;
 
     @Test(enabled = true)
+    public void testAllowAccess(){
+        homeScreenAndroid.allowAccess();
+    }
+
+    @Test(enabled = true)
     public void testAddContact() throws IOException {
 
-        User user = getUser("Diego");
-
+        User user = getUser("Alfredo");
         newContactScreenAndroid = homeScreenAndroid.addContact();
         contactScreenAndroid = newContactScreenAndroid.addContact("contactScreenAndroid", user);
-
         Assertions.assertThat(contactScreenAndroid.isCreatedContact(user)).isTrue();
         contactScreenAndroid.tapOnBackButton();
     }

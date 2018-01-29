@@ -1,9 +1,10 @@
 package com.globant.screen.android;
 
 import com.globant.pageobject.BaseScreen;
-import com.globant.screen.widget.ConfirmWidgetAndroid;
-import com.globant.screen.widget.MoreOptionsWidgetAndroid;
-import com.globant.screen.widget.SelectedWidgetAndroid;
+import com.globant.screen.widget.AllowAccessWidget;
+import com.globant.screen.widget.ConfirmWidget;
+import com.globant.screen.widget.MoreOptionsWidget;
+import com.globant.screen.widget.SelectedWidget;
 import com.globant.util.ScreenFactory;
 import com.globant.util.annottation.ScreenAndroid;
 import io.appium.java_client.AppiumDriver;
@@ -24,16 +25,23 @@ public class HomeScreenAndroid extends BaseScreen {
     @AndroidFindBy(xpath = "//android.widget.ImageView[@content-desc='Más opciones']")
     private AndroidElement moreOptions;
 
-    private MoreOptionsWidgetAndroid moreOptionsWidget;
+    private MoreOptionsWidget moreOptionsWidget;
 
-    private SelectedWidgetAndroid selectedWidget;
+    private SelectedWidget selectedWidget;
 
-    private ConfirmWidgetAndroid confirmWidget;
+    private ConfirmWidget confirmWidget;
+
+    private AllowAccessWidget accessWidget;
 
 
     @Autowired
     public HomeScreenAndroid(AppiumDriver<? extends MobileElement> appiumDriver) {
         super(appiumDriver);
+    }
+
+    public <T extends BaseScreen> T allowAccess(){
+        accessWidget.allowAcces().allowAcces();
+        return screenFactory.getScreen("homeScreenAndroid");
     }
 
     public <T extends BaseScreen> T addContact() {
