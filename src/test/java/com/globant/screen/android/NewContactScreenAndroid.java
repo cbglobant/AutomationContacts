@@ -4,16 +4,14 @@ import com.globant.model.User;
 import com.globant.pageobject.BaseScreen;
 import com.globant.util.ScreenFactory;
 import com.globant.util.UtilFormat;
+import com.globant.util.annottation.ScreenAndroid;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
-@Component
-@Profile("ANDROID")
+@ScreenAndroid
 public class NewContactScreenAndroid extends BaseScreen {
 
     @Autowired
