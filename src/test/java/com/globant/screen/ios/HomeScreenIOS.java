@@ -26,6 +26,9 @@ public class HomeScreenIOS extends BaseScreen {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeTable/XCUIElementTypeCell")
     private List<IOSElement> contacts;
 
+    @iOSXCUITFindBy(iOSNsPredicate = "type = 'XCUIElementTypeTable' && name = 'ContactsListView'")
+    private IOSElement emptyTable;
+
     @iOSXCUITFindBy(iOSNsPredicate = "type = 'XCUIElementTypeSearchField' && name = 'Buscar'")
     private IOSElement searchField;
 
@@ -59,4 +62,8 @@ public class HomeScreenIOS extends BaseScreen {
         return screenFactory.getScreen(nameBean);
     }
 
+    public Boolean isValidDeleteContacts() {
+        System.out.println(emptyTable.getTagName());
+        return emptyTable.getTagName().equals("Sin contactos");
+    }
 }

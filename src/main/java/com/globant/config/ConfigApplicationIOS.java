@@ -1,7 +1,9 @@
 package com.globant.config;
 
+import com.globant.appium.listener.AppiumListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.events.EventFiringWebDriverFactory;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,13 @@ public class ConfigApplicationIOS {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private AppiumListener appiumListener;
+
     @Bean(destroyMethod = "quit")
     @Qualifier("driver")
     public AppiumDriver<? extends MobileElement> appiumDriver() throws MalformedURLException {
-        return new IOSDriver(url(), desiredCapabilities());
+        return EventFiringWebDriverFactory.getEventFiringWebDriver(new IOSDriver(url(), desiredCapabilities()), appiumListener);
     }
 
     @Bean

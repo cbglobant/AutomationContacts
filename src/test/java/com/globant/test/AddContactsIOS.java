@@ -41,5 +41,6 @@ public class AddContactsIOS extends BaseTests {
             newContactScreenIOS = contactScreenIOS.clickEditButton("newContactScreenIOS");
             newContactScreenIOS.deleteContact("homeScreenIOS");
         });
+        Assertions.assertThat(homeScreenIOS.isValidDeleteContacts());
     }
 }
