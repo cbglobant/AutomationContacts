@@ -1,9 +1,7 @@
 package com.globant.pageobject;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
+import io.appium.java_client.*;
+import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -17,9 +15,7 @@ import org.springframework.core.env.Environment;
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class BaseScreen {
@@ -94,6 +90,13 @@ public abstract class BaseScreen {
     protected void typeIOSElement(MobileElement element, String text) {
         element.clear();
         element.sendKeys(text);
+    }
+
+    /**
+     * Tap on the back button.
+     */
+    public void tapOnBackButton() {
+        ((PressesKeyCode) appiumDriver).pressKeyCode(AndroidKeyCode.BACK);
     }
 
     /**

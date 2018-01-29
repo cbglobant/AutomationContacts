@@ -30,5 +30,12 @@ public class AddContactsAndroid extends BaseTests {
         contactScreenAndroid = newContactScreenAndroid.addContact("contactScreenAndroid", user);
 
         Assertions.assertThat(contactScreenAndroid.isCreatedContact(user)).isTrue();
+        contactScreenAndroid.tapOnBackButton();
+    }
+
+    @Test(enabled = true)
+    public void testDeleteAllContacts(){
+        homeScreenAndroid.selectAllContacts();
+        homeScreenAndroid.deleteContact();
     }
 }
