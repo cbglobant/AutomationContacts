@@ -5,6 +5,7 @@ import com.globant.screen.ios.ContactScreenIOS;
 import com.globant.screen.ios.HomeScreenIOS;
 import com.globant.screen.ios.NewContactScreenIOS;
 import com.globant.util.EnumData;
+import io.appium.java_client.remote.MobilePlatform;
 import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static com.globant.util.MapperJSON.getObjects;
 
-@ActiveProfiles("IOS")
+@ActiveProfiles(MobilePlatform.IOS)
 public class AddContactsIOS extends BaseTests {
 
     @Autowired
@@ -24,7 +25,7 @@ public class AddContactsIOS extends BaseTests {
     private ContactScreenIOS contactScreenIOS;
     private List<User> userList = getObjects(EnumData.USERS);
 
-    @Test(enabled = true)
+    @Test(priority = 0, enabled = true)
     public void testAddContacts() throws IOException {
         userList.forEach(user -> {
             newContactScreenIOS = homeScreenIOS.addContact("newContactScreenIOS");
@@ -34,7 +35,7 @@ public class AddContactsIOS extends BaseTests {
         Assertions.assertThat(homeScreenIOS.isValidContacts(userList)).isTrue();
     }
 
-    @Test(enabled = true)
+    @Test(priority = 1, enabled = true)
     public void testDeleteContacts() {
         userList.forEach(user -> {
             contactScreenIOS = homeScreenIOS.findContact("contactScreenIOS", user);

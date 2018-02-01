@@ -63,7 +63,6 @@ public class HomeScreenIOS extends BaseScreen {
     }
 
     public Boolean isValidDeleteContacts() {
-        System.out.println(emptyTable.getTagName());
         return emptyTable.getTagName().equals("Sin contactos");
     }
 }

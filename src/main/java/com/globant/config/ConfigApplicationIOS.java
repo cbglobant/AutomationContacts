@@ -5,6 +5,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.events.EventFiringWebDriverFactory;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +20,7 @@ import static com.globant.appium.MobileCapabilityTypeDecorator.*;
 @Configuration
 @PropertySource("classpath:appiumIOS.properties")
 @ComponentScan("com.globant.*")
-@Profile("IOS")
+@Profile(MobilePlatform.IOS)
 public class ConfigApplicationIOS {
 
     @Autowired
