@@ -5,6 +5,7 @@ import com.globant.screen.android.ContactScreenAndroid;
 import com.globant.screen.android.HomeScreenAndroid;
 import com.globant.screen.android.NewContactScreenAndroid;
 import com.globant.util.EnumData;
+import io.appium.java_client.remote.MobilePlatform;
 import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,9 +15,8 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.globant.util.MapperJSON.getObjects;
-import static com.globant.util.MapperJSON.getUser;
 
-@ActiveProfiles("ANDROID")
+@ActiveProfiles(MobilePlatform.ANDROID)
 public class AddContactsAndroid extends BaseTests {
 
     @Autowired
@@ -26,7 +26,7 @@ public class AddContactsAndroid extends BaseTests {
     private List<User> userList = getObjects(EnumData.USERS);
 
     @Test(enabled = true)
-    public void testAllowAccess(){
+    public void testAllowAccess() {
         homeScreenAndroid.allowAccess();
     }
 
@@ -41,7 +41,7 @@ public class AddContactsAndroid extends BaseTests {
     }
 
     @Test(enabled = true)
-    public void testDeleteAllContacts(){
+    public void testDeleteAllContacts() {
         homeScreenAndroid.selectAllContacts();
         homeScreenAndroid.deleteContact();
         Assertions.assertThat(homeScreenAndroid.isContactListEmpty()).isTrue();
