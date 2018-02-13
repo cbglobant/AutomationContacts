@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.internal.TouchAction;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 public abstract class BaseScreen {
 
     private final AppiumDriver<? extends MobileElement> appiumDriver;
+    public static final String ID = "cl.bci.sismo.mach.dev:id/";
 
     @Autowired
     private Environment environment;
@@ -121,12 +123,24 @@ public abstract class BaseScreen {
         if (elementExists(elementBy, 2)) {
             getAppiumDriver().findElement(elementBy).click();
         } else {
-            new TouchAction(getAppiumDriver())
+            /*new TouchAction(getAppiumDriver())
                     .press(element.getLocation().x, (int) (element.getSize().height * 0.90))
                     .moveTo(0, (int) (element.getSize().height * 0.10) - (int) (element.getSize().height * 0.90))
                     .release()
                     .perform();
-            scrollToElement(object, element);
+            scrollToElement(object, element);*/
+        }
+    }
+
+    /**
+     * @param seconds time waiting
+     */
+    public void waiting(int seconds) {
+        try {
+            synchronized (appiumDriver) {
+                appiumDriver.wait(seconds * 1000);
+            }
+        } catch (Exception e) {
         }
     }
 }

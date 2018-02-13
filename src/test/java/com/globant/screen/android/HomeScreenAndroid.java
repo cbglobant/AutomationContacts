@@ -25,8 +25,11 @@ public class HomeScreenAndroid extends BaseScreen {
     @AndroidFindBy(xpath = "//android.widget.ImageView[@content-desc='Más opciones']")
     private AndroidElement moreOptions;
 
-    @AndroidFindBy(id = "com.google.android.contacts:id/empty_account_view_text")
+    @AndroidFindBy(id = "com.google.android.contacts:id/empty_image")
     private AndroidElement emptyContactList;
+
+    @AndroidFindBy(id = "com.google.android.contacts:id/message")
+    private AndroidElement emptyMessageContactList;
 
     private MoreOptionsWidget moreOptionsWidget;
 
@@ -44,10 +47,11 @@ public class HomeScreenAndroid extends BaseScreen {
 
     public <T extends BaseScreen> T allowAccess(){
         accessWidget.allowAcces().allowAcces();
-        return screenFactory.getScreen("homeScreenAndroid");
+        return screenFactory.getScreen("googleScreenAndroid");
     }
 
     public <T extends BaseScreen> T addContact() {
+        //waiting(6);
         click(addContact);
         return screenFactory.getScreen("newContactScreenAndroid");
     }
@@ -65,6 +69,10 @@ public class HomeScreenAndroid extends BaseScreen {
     }
 
     public Boolean isContactListEmpty(){
-        return emptyContactList.isDisplayed();
+        return emptyContactList.isDisplayed() && emptyMessageContactList.getText().contains("Tu lista de contactos está vacía");
+    }
+
+    public <T extends BaseScreen> T getgoogleScreenAndroid(){
+        return screenFactory.getScreen("googleScreenAndroid");
     }
 }

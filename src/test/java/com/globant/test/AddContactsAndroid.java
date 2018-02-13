@@ -1,10 +1,10 @@
 package com.globant.test;
 
 import com.globant.model.User;
-import com.globant.screen.android.ContactScreenAndroid;
-import com.globant.screen.android.HomeScreenAndroid;
-import com.globant.screen.android.NewContactScreenAndroid;
+import com.globant.screen.android.*;
 import com.globant.util.EnumData;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobilePlatform;
 import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,31 @@ public class AddContactsAndroid extends BaseTests {
 
     @Autowired
     private HomeScreenAndroid homeScreenAndroid;
+    @Autowired
+    private LoginScreen loginScreen;
     private NewContactScreenAndroid newContactScreenAndroid;
     private ContactScreenAndroid contactScreenAndroid;
+    private GoogleScreenAndroid googleScreenAndroid;
     private List<User> userList = getObjects(EnumData.USERS);
 
-    @Test(enabled = true)
-    public void testAllowAccess() {
-        homeScreenAndroid.allowAccess();
+    @Test(priority = 0, enabled = false)
+    public void switchApp() throws InterruptedException {
+
+        System.out.println(((AndroidDriver<AndroidElement>) getAppiumDriver()).currentActivity());
+
+        System.out.println(((AndroidDriver<AndroidElement>) getAppiumDriver()).getPageSource());
+
+        ((AndroidDriver<AndroidElement>) getAppiumDriver()).startActivity("cl.bci.sismo.mach.dev","cl.bci.sismo.mach.machapp.splash.SplashScreenActivity");
+
+        System.out.println(((AndroidDriver<AndroidElement>) getAppiumDriver()).getPageSource());
+
+        loginScreen.tapOnDoYouAlreadyHaveAnAccount();
     }
 
-    @Test(enabled = true)
+    @Test(priority = 1, enabled = true)
     public void testAddContact() throws IOException {
+        googleScreenAndroid = homeScreenAndroid.allowAccess();
+        homeScreenAndroid = googleScreenAndroid.skip();
         userList.forEach(user -> {
             newContactScreenAndroid = homeScreenAndroid.addContact();
             contactScreenAndroid = newContactScreenAndroid.addContact("contactScreenAndroid", user);
@@ -40,7 +54,7 @@ public class AddContactsAndroid extends BaseTests {
         });
     }
 
-    @Test(enabled = true)
+    @Test(priority = 2, enabled = true)
     public void testDeleteAllContacts() {
         homeScreenAndroid.selectAllContacts();
         homeScreenAndroid.deleteContact();

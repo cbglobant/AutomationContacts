@@ -53,7 +53,7 @@ public class NewContactScreenIOS extends BaseScreen {
     }
 
     public <T extends BaseScreen> T deleteContact(String nameBean) {
-        scrollToElement("Eliminar contacto", contactTable);
+        //scrollToElement("Eliminar contacto", contactTable);
         click(deleteWidget.getDeleteContactButton());
         return screenFactory.getScreen(nameBean);
     }
